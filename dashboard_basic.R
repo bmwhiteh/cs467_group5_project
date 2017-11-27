@@ -11,7 +11,7 @@ ui <- dashboardPage(
   dashboardSidebar(
     sidebarMenu(
       menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
-      menuItem("Widgets", tabName = "widgets", icon = icon("th"))
+      menuItem("Graphs", tabName = "Graphs", icon = icon("th"))
     )
   ),
   
@@ -31,7 +31,7 @@ ui <- dashboardPage(
         ),
       
       # Second tab content
-      tabItem(tabName = "widgets",
+      tabItem(tabName = "Graphs",
         h2("Widgets tab content")
       )
     )
