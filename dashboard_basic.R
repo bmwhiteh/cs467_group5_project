@@ -5,13 +5,20 @@
 library(shinydashboard)
 
 ui <- dashboardPage(
-  dashboardHeader(title = "Basic dashboard"),
+  dashboardHeader(title = "Dashboard"),
  
    ## Sidebar content
   dashboardSidebar(
     sidebarMenu(
       menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
+      menuItem("Widgets", tabName = "widgets", icon = icon("th")),
+      menuItem("Widgets", tabName = "widgets", icon = icon("th")),
+      menuItem("Widgets", tabName = "widgets", icon = icon("th")),
+      menuItem("Widgets", tabName = "widgets", icon = icon("th")),
+      menuItem("Widgets", tabName = "widgets", icon = icon("th")),
+      menuItem("Widgets", tabName = "widgets", icon = icon("th")),
       menuItem("Widgets", tabName = "widgets", icon = icon("th"))
+      
     )
   ),
   
@@ -21,18 +28,35 @@ ui <- dashboardPage(
       # First tab content
       tabItem(tabName = "dashboard",
           fluidRow(
-            box(plotOutput("plot1", height = 250)),
-            
             box(
-              title = "Controls",
-              sliderInput("slider", "Number of observations:", 1, 100, 50)
+              title = "Main Plot", width = 12, status = "primary", solidHeader = TRUE,
+              plotOutput("plot1", height = 300)
+              
+              )
+          ),
+      
+          fluidRow(
+            box(
+              title = "CSV Output", width = 12, solidHeader = TRUE
             )
           )
-        ),
+      ),
       
       # Second tab content
       tabItem(tabName = "widgets",
-        h2("Widgets tab content")
+        fluidRow(
+          box(
+            title = "Main Plot", width = 12, status = "primary", solidHeader = TRUE,
+            plotOutput("plot1", height = 300)
+            
+          )
+        ),
+        
+        fluidRow(
+          box(
+            title = "CSV Output", width = 12, solidHeader = TRUE
+          )
+        )
       )
     )
   )
