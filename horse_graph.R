@@ -7,9 +7,8 @@ weather_winnings <- horse_weather_data[c("weather_id", "total_pool_one_win")]
 
 dev.off()
 
-getMeanWeatherWinnings <-aggregate(weather_winnings$total_pool_one_win, FUN=mean, 
-                                   by=list(weather_winnings$weather_id))
+getMeanWeatherWinnings <-aggregate(weather_winnings$total_pool_one_win, FUN=mean,
+                                   list(id = weather_winnings$weather_id))
 
-barplot(getMeanWeatherWinnings&x, main="Weather Conditions", ylab="Average Winnings"
-        ,beside = TRUE, col=rainbow(6), xlab = "Weather Code")
-
+barplot(getMeanWeatherWinnings$x/1000, main="Weather Conditions", ylab="Average Winnings (1000s)"
+        ,col=rainbow(4), xlab = "Weather Code", names.arg = getMeanWeatherWinnings$id, ylim = c(0,80))
