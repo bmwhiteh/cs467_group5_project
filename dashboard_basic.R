@@ -15,7 +15,17 @@ track_conditions_data <-read.csv(file = "c:/Users/bmwhi/Documents/IPFW Fall 2017
 track_condition_winnings <- track_conditions_data[c("condition_id", "total_pool_one_win")]
 
 getMeanWinnings <-aggregate(track_condition_winnings$total_pool_one_win, FUN=mean,
-                            list(track_condition = track_condition_winnings$condition_id))
+                          list(track_condition = track_condition_winnings$condition_id),na.rm=TRUE)
+
+# Read values from tab-delimited autos.dat 
+horse_weather_data <-read.csv(file = "c:/Users/bmwhi/Documents/IPFW Fall 2017/CS 467 - Project Management/cs467_group5_project/markets.csv", header =TRUE)
+
+
+weather_winnings <- horse_weather_data[c("weather_id", "total_pool_one_win")]
+
+
+getMeanWeatherWinnings <-aggregate(weather_winnings$total_pool_one_win, FUN=mean,
+                                   list(id = weather_winnings$weather_id),na.rm=TRUE)
 
 
 #################
@@ -62,7 +72,7 @@ colnames(horses_sex_data)[which(names(horses_sex_data) == "id")] <- "sex_id"
 #make sure it merges so sex_id is the column that's equal in the tables
 combinedHorses <- merge(horses_sex_data, horses_data, by.x = "sex_id")
 age_prizes <- combinedHorses[c("age","prize_money")]
-
+name_prizes <- combinedHorses[c("name","prize_money")]
 
 
 getMeanPrizeMoneyAge <- aggregate(name_prizes$prize_money, FUN=mean, nfrequency =1, by=list(sort(age_prizes$age)))
@@ -102,92 +112,89 @@ ui <- dashboardPage(
   dashboardBody(
     tabItems(
       # First tab content
-      tabItem(tabName = "dashboard"
-         
+      tabItem(tabName = "dashboard",
+              h2("Click on a tab to view some graphs!")
         )
     ,
       
       # Travis tab content
       tabItem(tabName = "Travis",
-        h2("Widgets tab content"),
         fluidRow(
-          box(plotOutput("plot1", height = 250)),
+          box(plotOutput("plot1"), height = 500, width = 500)
           
-          box(
-            title = "Controls",
-            sliderInput("slider", "Number of observations:", 1, 100, 50)
-          )
+          #box(
+          #  title = "Controls",
+          #  sliderInput("slider", "Number of observations:", 1, 100, 50)
+          #)
         ),
         fluidRow(
-          box(plotOutput("plot2", height = 250)),
+          box(plotOutput("plot2"), height = 500, width = 500)
           
-          box(
-            title = "Controls",
-            sliderInput("slider", "Number of observations:", 1, 100, 50)
-          )
+          #box(
+          #  title = "Controls",
+          #  sliderInput("slider", "Number of observations:", 1, 100, 50)
+          #)
         )
       )
     ,
       # Donovan tab content
       tabItem(tabName = "Donovan",
-        h2("Widgets tab content"),
         fluidRow(
-          box(plotOutput("plot3", height = 250)),
+          box(plotOutput("plot3"), height = 500, width = 500)
           
-          box(
-            title = "Controls",
-            sliderInput("slider", "Number of observations:", 1, 100, 50)
-          )
+          #box(
+          #  title = "Controls",
+          #  sliderInput("slider", "Number of observations:", 1, 100, 50)
+          #)
         ),
         fluidRow(
-          box(plotOutput("plot4", height = 250)),
+          box(plotOutput("plot4"), height = 500, width = 500)
           
-          box(
-            title = "Controls",
-            sliderInput("slider", "Number of observations:", 1, 100, 50)
-          )
+          #box(
+          #  title = "Controls",
+          #  sliderInput("slider", "Number of observations:", 1, 100, 50)
+          #)
         )
       )
     ,
       # Bailey tab content
       tabItem(tabName = "Bailey",
-        h2("Widgets tab content"),
         fluidRow(
-          box(plotOutput("plot5", height = 250)),
+          box(plotOutput("plot5"), height = 500, width = 500)
           
-          box(
-            title = "Controls",
-            sliderInput("slider", "Number of observations:", 1, 100, 50)
-          )
+          #box(
+          #  title = "Controls",
+          #  sliderInput("slider", "Number of observations:", 1, 100, 50)
+          #)
         ),
         fluidRow(
-          box(plotOutput("plot6", height = 250)),
+          box(plotOutput("plot6"), height = 500, width = 500)
           
-          box(
-            title = "Controls",
-            sliderInput("slider", "Number of observations:", 1, 100, 50)
-          )
+          #box(
+          #  title = "Controls",
+          #  sliderInput("slider", "Number of observations:", 1, 100, 50)
+          #),height = 500, width = 500
         )
       )
     ,
       # Jason tab content
       tabItem(tabName = "Jason",
-        h2("Widgets tab content"),
         fluidRow(
-          box(plotOutput("plot7", height = 250)),
+          box(plotOutput("plot7", height = 500, width = 500))
           
-          box(
-            title = "Controls",
-            sliderInput("slider", "Number of observations:", 1, 100, 50)
-          )
+          #box(
+          #  title = "Controls",
+          #  sliderInput("slider", "Number of observations:", 1, 100, 50)
+          #)
         ),
         fluidRow(
-          box(plotOutput("plot8", height = 250)),
+          box(plotOutput("plot8", height = 500, width = 500))
           
-          box(
-            title = "Controls",
-            sliderInput("slider", "Number of observations:", 1, 100, 50)
-          )
+          #box(
+          #  title = "Controls",
+          #  sliderInput("slider", "Number of observations:", 1, 100, 50)
+          #)
+          ,height = 500, width = 500
         )
         )
     )
@@ -207,7 +214,9 @@ server <- function(input, output) {
   })
   
   output$plot2 <- renderPlot({
-  
+    barplot(getMeanWeatherWinnings$x/1000, main="Weather Conditions", ylab="Average Winnings (1000s)"
+            ,col=rainbow(4), xlab = "Weather Code", names.arg = getMeanWeatherWinnings$id, ylim = c(0,80))
+    
   })
   
   ##Donovan Plots##
