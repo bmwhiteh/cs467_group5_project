@@ -25,3 +25,4 @@ ages <- sort(unique(age_prizes$age));
 barplot(getMeanPrizeMoney$x, main="Horse Age versus Average Prize Money", ylab= "Average Prize Winnings",
         beside=TRUE, col=rainbow(6), names.arg = ages, xlab = "Ages")
 
+
